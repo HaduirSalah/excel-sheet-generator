@@ -1,11 +1,20 @@
+
+
 let table = document.getElementsByClassName("sheet-body")[0],
 rows = document.getElementsByClassName("rows")[0],
 columns = document.getElementsByClassName("columns")[0]
-tableExists = false
+tableExists = false;
 
 const generateTable = () => {
+
     let rowsNumber = parseInt(rows.value), columnsNumber = parseInt(columns.value)
     table.innerHTML = ""
+    if (isNaN(rowsNumber) || isNaN(columnsNumber) || rowsNumber <= 0 || columnsNumber <= 0) {
+        swal("Error", "Please enter valid numbers for rows and columns", "error");
+        return;
+    }
+
+    else {
     for(let i=0; i<rowsNumber; i++){
         var tableRow = ""
         for(let j=0; j<columnsNumber; j++){
@@ -13,6 +22,7 @@ const generateTable = () => {
         }
         table.innerHTML += tableRow
     }
+}
     if(rowsNumber>0 && columnsNumber>0){
         tableExists = true
     }
@@ -20,6 +30,7 @@ const generateTable = () => {
 
 const ExportToExcel = (type, fn, dl) => {
     if(!tableExists){
+        swal("Error", "No table exists to be exported", "error");
         return
     }
     var elt = table
